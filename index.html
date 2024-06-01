@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bahrul motor</title>
+
+    <!-- Font Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,300;0,400;0,600;0,700;1,700&display=swap" rel="stylesheet">
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/styles.css"> -->
+
+    
+
+    <!-- Alpine Js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- App Js -->
+    <script src="js/app.js"></script>
+
+</head>
+<body>
+    
+    <!-- Navbar -->
+    <nav class="navbar" x-data>
+        <a href="" class="navbar-logo">Bahrul<span>motor</span>.</a>
+        <div class="navbar-nav">
+            <a href="#home" class="aktif">Home</a>
+            <a href="#about">Tentang Kami</a>
+            <a href="#products">Product</a>
+            <a href="#contact">Kontak</a>
+        </div>
+
+        <div class="navbar-extra">
+            <a href="#" id="menu"><i data-feather="menu"></i></a>
+        </div>
+
+        <!-- Search -->
+        <div class="search-form">
+            <input type="search" id="search-box" placeholder="search here..">
+            <label for="search-box"><i data-feather="search"></i></label>
+        </div>
+        <!-- End Search -->
+
+        <!-- Cart -->
+        <div class="shopping-cart">
+            <template x-for="(item, index) in $store.cart.items" x-key="index">
+                <div class="cart-item">
+                    <img :src="`img/produk/${item.img}`" :alt="item.name">
+                    <div class="item-detail">
+                        <h3 x-text="item.name"></h3>
+                        <div class="item-price">
+                            <span x-text="rupiah(item.price)"></span>
+                            <button id="remove" @click="$store.cart.remove(item.id)">&minus;</button>
+                            <span x-text="item.quantity"></span>
+                            <button id="add" @click="$store.cart.add(item)">&plus;</button> &equals;
+                            <span x-text="rupiah(item.total)"></span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <h2 x-show="!$store.cart.items.length">Cart Is Empty</h2>
+            <img x-show="!$store.cart.items.length" id="img-empty" src="img/empty.png" alt="">
+            <h3 x-show="$store.cart.items.length" id="total-all">Total : <span x-text="rupiah($store.cart.total)"></span></h3>
+
+            <div class="form-container" x-show="$store.cart.items.length">
+                <form action="" id="checkoutForm">
+                    <h5>Customer Detail</h5>
+
+                    <label for="name">
+                        <span>Name</span>
+                        <input type="text" name="name" id="name">
+                    </label>
+                    <label for="email">
+                        <span>Email</span>
+                        <input type="text" name="email" id="email">
+                    </label>
+                    <label for="phone">
+                        <span>Phone</span>
+                        <input type="text" name="phone" id="phone">
+                    </label>
+
+                    <button class="checkout-btn" type="submit" id="checkout-btn" value="checkout">Checkout</button>
+                </form>
+            </div>
+        </div>
+        <!-- End Cart -->
+
+    </nav>
+    <!-- End Navbar -->
+
+    <!-- Hero -->
+    <section class="hero" id="home">
+        <div class="row">
+            <main class="content">
+                <h1>Harga Terbaik <br>Motor Terkini<br>Untuk<span> Anda</span></h1>
+                <p>Kami menawarkan harga terbaik dan kemudahan untuk memiliki motor impian Anda. </p>
+                <a href="#" class="cta">Hubungi Sekarang!</a>
+                
+            </main>
+            <div class="slide">
+                <div class="list-wrapper">                
+                    <ul class="list">
+                        <li class="item"><div class="slider"><img src="img/produk/beat.jpg" alt=""></div></li>
+                        <li class="item"><div class="slider"><img src="img/produk/scoopy.jpg" alt=""></div></li>
+                        <li class="item"><div class="slider"><img src="img/produk/vario.jpg" alt=""></div></li>
+                    </ul>
+                    <button onclick="handleClick('previous')" class="button button--previous" type="button">➜</button>
+                    <button onclick="handleClick('next')" class="button button--next" type="button">➜</button>
+                </div>
+            </div>
+        </div>
+
+        
+    </section>
+    <!-- End Hero -->
+
+    <!-- About -->
+    <section id="about" class="about">
+        <h2><span>Tentang</span> Kami</h2>
+        <div class="row">
+            <div class="about-img">
+                <img src="img/about.jpg" alt="Tentang Kami">
+            </div>
+            <div class="content">
+                <h3>Kenapa memilih motor kami?</h3>
+                <p>Selain menawarkan harga terbaik dan kemudahan untuk memiliki motor impian Anda. Kami memberikan berbagai macam produk motor terkini.</p>
+            </div>
+        </div>
+    </section>
+    <!-- End About -->
+
+    <!-- Products -->
+    <section class="products" id="products" x-data="products">
+        <h2><span>Produk Unggulan</span> Kami</h2>
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet similique debitis doloremque, accusamus vero dolorum!</p>
+
+        <div class="row" >
+            <template x-for="(item, index) in items" x-key="index">
+                <div class="product-card">
+                    
+                    <div class="product-img">
+                        <img :src="`img/produk/${item.img}`" :alt="item.name">
+                    </div>
+                    <div class="product-content">
+                        <h3 x-text="item.name"></h3>
+                        <div class="product-stars">
+                            <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <use href="img/feather-sprite.svg#star" />
+                            </svg>
+                            <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <use href="img/feather-sprite.svg#star" />
+                            </svg>
+                            <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <use href="img/feather-sprite.svg#star" />
+                            </svg>
+                            <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <use href="img/feather-sprite.svg#star" />
+                            </svg>
+                            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <use href="img/feather-sprite.svg#star" />
+                            </svg>
+                        </div>
+                        <div class="product-icons">
+                            <a href="#" class="item-detail-btn">Lihat Detail
+                            </a>
+                        </div>
+                        <div class="product-price" x-text="rupiah(item.price)"></div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </section>
+
+    
+
+    <!-- Contact -->
+    <section id="contact" class="contact">
+        <h2><span>Kontak</span> Kami</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius maxime est natus.</p>
+
+        <div class="row">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d7898.670342008888!2d113.70041708181255!3d-8.168947758340044!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd6943a42369d8f%3A0x8bd003425ec58c76!2sAlun-Alun%20Jember!5e0!3m2!1sen!2sid!4v1715680899275!5m2!1sen!2sid" width="600"  style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+            <form action="">
+                <div class="input-group">
+                    <i data-feather="user"></i>
+                    <input type="text" placeholder="Name">
+                </div>
+                <div class="input-group">
+                    <i data-feather="mail"></i>
+                    <input type="text" placeholder="Email">
+                </div>
+                <div class="input-group">
+                    <i data-feather="phone"></i>
+                    <input type="text" placeholder="Phone">
+                </div>
+                <button type="submit" class="btn">kirim pesan</button>
+            </form>
+        </div>
+    </section>
+    <!-- End Contact -->
+
+    <!-- Footer -->
+    <footer>
+        <div class="social">
+            <a href="#"><i data-feather="instagram"></i></a>
+            <a href="#"><i data-feather="twitter"></i></a>
+            <a href="#"><i data-feather="facebook"></i></a>
+            <a href="#"><i data-feather="youtube"></i></a>
+        </div>
+
+        <div class="links">
+            <a href="#home">Home</a>
+            <a href="#about">Tentang Kami</a>
+            <a href="#products">Menu</a>
+            <a href="#contact">Kontak</a>
+        </div>
+
+        <div class="credits">
+            <p>Created by <a href="https://web.facebook.com/apoy.rgb" style="color: aliceblue;">aviwebdeveloper</a>. | &copy; 2024.</p>
+        </div>
+    </footer>
+    <!-- End Footer -->
+
+    <!-- Modal Detail -->
+    <div class="modal" id="item-detail-modal">
+        <div class="modal-container">
+            <a href="#" class="close-icon"><i data-feather="x"></i></a>
+            <div class="modal-content">
+                <img src="img/produk/beat.jpg" alt="Produk 1">
+                <div class="product-content">
+                    <h3>Produk 1</h3>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Molestiae, quidem et quis soluta delectus rem dolore nihil explicabo beatae magnam.</p>
+                    <div class="product-stars">
+                        <i data-feather="star" class="star-full"></i>
+                        <i data-feather="star"></i>
+                        <i data-feather="star"></i>
+                        <i data-feather="star"></i>
+                        <i data-feather="star"></i>
+                    </div>
+                    <div class="product-price">
+                        IDR 60K <span>IDR 39K</span>
+                    </div>
+                    <a href="#"><i data-feather="shopping-cart"> </i>add to cart</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Detail -->
+
+    <!-- Feather Icons -->
+    <script>
+        feather.replace();
+    </script>
+    <script>
+        const list = document.querySelector(".list");
+      
+        // We want to know the width of one of the items. We'll use this to decide how many pixels we want our carousel to scroll.
+        const item = document.querySelector(".item");
+        const itemWidth = item.offsetWidth;
+      
+        function handleClick(direction) {
+          // Based on the direction we call `scrollBy` with the item width we got earlier
+          if(direction === "previous") {
+            list.scrollBy({ left: -itemWidth, behavior: "smooth" });
+          } else {
+            list.scrollBy({ left: itemWidth, behavior: "smooth" });
+          }
+        }
+      </script>
+
+    <!-- Js -->
+    <script src="js/script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
